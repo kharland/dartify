@@ -6,6 +6,7 @@ Dartify lets you write C code and wrap it as a dart native extension without doi
 - [x] Multi-precision integers
 - [ ] Lists
 - [ ] Maps
+- [ ] Abritrary objects
 - [x] Synchronous extension wrappers
 - [ ] Asynchronous extension wrappers
 
