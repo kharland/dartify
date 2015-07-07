@@ -95,6 +95,11 @@ Wraps the annotated function in a synchronous dart extension
 Wraps the annotated function in a synchronous dart extension that expects a libgmp data structure to be returned. The function itself must return void and the first parameter must be the return value handed back to the dart runtime.
 
 ### Planned feature support
+- [x] ints
+- [ ] uints
+- [x] doubles
+- [ ] floats
+- [x] bools
 - [x] Multi-precision integers
 - [ ] Lists
 - [ ] Maps
