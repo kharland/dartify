@@ -96,9 +96,10 @@ Wraps the annotated function in a synchronous dart extension that expects a libg
 
 ### Planned feature support
 - [x] ints
-- [ ] uints
+- [x] uints
 - [x] doubles
-- [ ] floats
+- [x] Strings (const char *)
+- [x] floats
 - [x] bools
 - [x] Multi-precision integers
 - [ ] Lists
