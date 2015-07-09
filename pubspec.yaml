@@ -1,5 +1,5 @@
 name: dartify
-version: 0.0.2
+version: 0.0.3
 author: Kendal Harland <kendaljharland@gmail.com>
 description: Automatically wrap ANSI C source as a Dart Native Extension
 homepage: https://github.com/kharland/dartify
