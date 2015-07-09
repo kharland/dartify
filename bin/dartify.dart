@@ -27,20 +27,10 @@ ArgResults parseArgs(List args) {
     help: 'Display this help and exit',
     negatable: false,
     callback: (value) { if (value) usage(); });
-  
-  argparser.addFlag('type-checks',
-    abbr: 't',
-    negatable: false,
-    help: 'Generate type-checks and exceptions for parameter types');
 
-  argparser.addFlag('verbose', 
-    abbr: 'v', 
-    negatable: false,
-    help: 'Enable verbose output');
-
-  argparser.addFlag('version',
-    help: 'Display version information',
-    negatable: false);
+  // argparser.addFlag('version',
+  //   help: 'Display version information',
+  //   negatable: false);
 
   return argparser.parse(args);
 }
