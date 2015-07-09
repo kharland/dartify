@@ -44,7 +44,7 @@ void syncWrapper(prototype) {
 
 /**
  * Outputs the wrapper for a synchronous dart extension that uses a libgmp 
- * data structure as a return type
+ * data structure as a return type.
  */
 void syncGmpWrapper(prototype) {
   _ensureValidGmpPrototype(prototype);

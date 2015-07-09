@@ -6,6 +6,12 @@ import 'package:dartify/parser.dart';
 import 'package:dartify/generator.dart' as gen;
 
 final argparser = new ArgParser();
+  
+String extractFilename(File infile) =>
+  infile.path.split(Platform.pathSeparator).last.split('.').first;
+
+bool inputFileProvided(ArgResults settings) =>
+  settings.rest != null && settings.rest.length == 1;
 
 /// Prints the program's usage and exits
 void usage() {
@@ -53,9 +59,9 @@ void main(List<String> args) {
       prototypes;
   
   settings = parseArgs(args);
-  if (settings.rest != null && settings.rest.length == 1) {
+  if (inputFileProvided(settings)) {
     infile = new File(settings.rest[0]);
-    extname = infile.path.split(Platform.pathSeparator).last.split('.').first;
+    extname = extractFilename(infile);
     if (!infile.existsSync()) {
       throw new FileSystemException('cannot open ${infile.absolute}');
     }
