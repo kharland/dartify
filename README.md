@@ -90,23 +90,34 @@ Because Dart [only supports 64-bit floating point numbers](https://www.dartlang.
 **@dartify:sync**  
 Wraps the annotated function in a synchronous dart extension
 
-~~**@dartify:async**~~  
+**@dartify:async**  
 *Not yet supported*
 
 **@dartify:syncgmp**  
 Wraps the annotated function in a synchronous dart extension that expects a libgmp data structure to be returned. The function itself must return void and the first parameter must be the return value handed back to the dart runtime.
 
+**@dartify:asyncgmp**  
+*Not yet supported*
+
 ### Planned feature support
-- [x] ints
-- [x] uints
-- [x] doubles
-- [x] Strings (const char *)
-- [x] floats
-- [x] bools
+- [x] int parameters
+- [x] int return type
+- [x] uint parameters
+- [x] uint return type
+- [x] double parameters
+- [x] double return type
+- [x] float parameters
+- [x] float return type
+- [x] bool parameters
+- [x] bool return type
+- [x] String (const char *) parameters
+- [x] String (const char *) return type
 - [x] Multi-precision integers
-- [ ] Lists
-- [ ] Maps
+- [ ] List parameters
+- [ ] List return type
+- [ ] Map parameters
+- [ ] Map return types
 - [ ] Abritrary objects
 - [x] Synchronous extension wrappers
 - [ ] Asynchronous extension wrappers
-- [ ] Parse K&R style parameter lists
+- [ ] Recognize K&R style parameter lists
