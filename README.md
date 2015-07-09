@@ -1,7 +1,10 @@
 # Dartify
 
-Dartify lets you write C code and wrap it as a dart native extension without doing any extra work!  
+Dartify lets you write C code and wrap it as a dart native extension without writing any dart_api library code by hand.  Just wrap your existing C code and run it from dart.
 
+### Dependencies 
+  - libgmp 5.x.x
+  
 ### Installing
 
 Activate the package globally for simple use:
@@ -14,7 +17,7 @@ For now, you also need to create a symbolic link to `dartify.h` in the directory
 
 ### Usage
 
-In order to make a C function callable from dart, you have to annotate the function to let Dartify know that you want it to become part of your extension. To make a synchronous extension you must use the `@dartify:sync` annotation. So to export the function `foo` from this C code as a synchronous extension:
+In order to make a C function callable from dart, you have to annotate the function to let Dartify know that you want it to become part of your extension. To make a synchronous extension you must use the `//@dartify:sync` annotation. So to export the function `foo` from this C code as a synchronous extension:
 
 ```c
 bool foo(int bar) {
@@ -31,16 +34,15 @@ bool foo(int bar) {
 }
 ```
 
-You can annotate multiple functions in the same file and they will all be wrapped in the C code that is output.
+You can annotate multiple functions in the same file and they will all be wrapped in the C extension that is generated.
 
-
-If you've ever used [browserify](https://github.com/substack/node-browserify), the usage is very similar.  If this code is in some file called `code.cc` then you can generate the extension for this file like so:
+If this code is in some file called `code.cc` then you can generate the extension for this file like so:
 
 ```dart
-dartify code.cc > extension.cc
+dartify code.cc > code_extension.cc
 ```
 
-Now you can compile `extension.cc` and use it as a dart native extension! For tips on compiling, see the [Dart Native Extension tutorial](https://www.dartlang.org/articles/native-extensions-for-standalone-dart-vm/)
+Now you can compile `code_extension.cc` to a shared library and use it as a dart native extension! For tips on compiling, see the [Dart Native Extension tutorial](https://www.dartlang.org/articles/native-extensions-for-standalone-dart-vm/)
 
 Dartify uses libgmp to account for some compatibility issus between C and Dart, so be aware that when compiling you must use the option `-lgmp` to link against the gmp binaries.
 
@@ -68,7 +70,7 @@ void add(mpz_t sum, mpz_t a, mpz_t b) {
 Dartify will make sure that the value stored in `sum` gets returned as an integer.  When the user calls your function from dart, they will not supply the first parameter.  Dartify will initialize, free and return the value of the variable as necessary.  For example, your dart code will look something like this:
 
 ```dart
-import 'dart-ext:extension';
+import 'dart-ext:code_extension';
 
 int add(int a, int b) native "add";
 
