@@ -112,12 +112,14 @@ Wraps the annotated function in a synchronous dart extension that expects a libg
 - [x] bool return type
 - [x] String (const char *) parameters
 - [x] String (const char *) return type
-- [x] Multi-precision integers
+- [x] Multi-precision integer parameters
+- [x] Multi-precision integer return type
 - [ ] List parameters
 - [ ] List return type
 - [ ] Map parameters
 - [ ] Map return types
-- [ ] Abritrary objects
+- [ ] Arbitrary objects as parameters
+- [ ] Arbitrary objects as return values
 - [x] Synchronous extension wrappers
 - [ ] Asynchronous extension wrappers
 - [ ] Recognize K&R style parameter lists
