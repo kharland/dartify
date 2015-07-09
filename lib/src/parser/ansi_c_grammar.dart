@@ -27,6 +27,7 @@ class _AnsiCGrammar {
   get ATOMIC => token("atomic");
   get VOID => token("void");
   get CHAR => token("char");
+  get BOOL => token("bool"); // technically not C
   get SHORT => token("short");
   get INT => token("int");
   get UINT => token("uint");
@@ -57,6 +58,7 @@ class _AnsiCGrammar {
   get typeSpecifier => 
       VOID
     | CHAR
+    | BOOL
     | SHORT
     | INT
     | UINT

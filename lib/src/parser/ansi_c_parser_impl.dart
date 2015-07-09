@@ -9,17 +9,25 @@ class _AnsiCParser extends _AnsiCGrammar implements AnsiCParser {
   });
 
   get parameterDeclaration => super.parameterDeclaration.map((value) {
-    var type,
-        pointer,
+    var type = value[0],
         id;
 
-    if (value[0] != null) type = value[0].join(' ');
-    if (value[1] != null) {
-      pointer = value[1][0];
-      id = value[1][1];
+    if (type != null) {
+      type = value[0].join(' ');
     }
 
-    return new Parameter(type, pointer, id);
+    if (value[1] != null) {
+      id = value[1][1];
+      String pointer = value[1][0];
+      if (pointer != null) {
+        type = '$type $pointer';
+      }
+    }
+
+    type = type.trim();
+    id = id.trim();
+
+    return new Parameter(type, id);
   });
 
   get parameterList => super.parameterList.map((value) {
@@ -60,11 +68,20 @@ class _AnsiCParser extends _AnsiCGrammar implements AnsiCParser {
   get functionPrototype => super.functionPrototype.map((value) {
     var specifiers = value[0],
         declarator = value[1],
-        type = specifiers.join(' '),
         pointer = declarator[0],
         id = declarator[1],
-        params = declarator[2];
-    return new FunctionPrototype(type, pointer, id, params);
+        params = declarator[2],
+        type;
+
+    if (specifiers != null) {
+      type = specifiers.join(' ');
+    }
+
+    if (pointer != null) {
+      type = '$type $pointer'; 
+    }
+
+    return new FunctionPrototype(type.trim(), id, params);
   });
 
   get dartifyExport => super.dartifyExport.map((value) {

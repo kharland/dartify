@@ -1,9 +1,7 @@
 library dartify;
 
 import 'dart:io';
-
 import 'package:args/args.dart';
-
 import 'package:dartify/parser.dart';
 import 'package:dartify/generator.dart' as gen;
 
@@ -43,69 +41,62 @@ ArgResults parseArgs(List args) {
 
 void main(List<String> args) {
   var settings,
-      syncExports,
-      syncGmpExports,
+      syncProtos,
+      asyncProtos,
+      syncGmpProtos,
+      asyncGmpProtos,
       infile,
+      extname,
       source,
       cparser,
-      exports;
+      exports,
+      prototypes;
   
   settings = parseArgs(args);
-
   if (settings.rest != null && settings.rest.length == 1) {
     infile = new File(settings.rest[0]);
+    extname = infile.path.split(Platform.pathSeparator).last.split('.').first;
     if (!infile.existsSync()) {
       throw new FileSystemException('cannot open ${infile.absolute}');
     }
     source = infile.readAsStringSync();
-  } else { usage(); }
+  } else { 
+    usage(); 
+  }
 
   cparser = new AnsiCParser();
   exports = cparser.parse(source);
-  syncExports = [];
-  syncGmpExports = [];
+  prototypes = exports.map((exp) => exp.prototype).toList();
+  syncProtos = [];
+  asyncProtos = [];
+  syncGmpProtos = [];
+  asyncGmpProtos = [];
 
   exports.forEach((exp) {
-    var annotation = exp.annotation,
-        prototype = exp.prototype;
-
-    switch(annotation) {
+    switch (exp.annotation) {
       case 'sync':
-        syncExports.add(prototype); 
+        syncProtos.add(exp.prototype);
         break;
+      case 'async': 
+       asyncProtos.add(exp.prototype); 
+       break;
       case 'syncgmp':
-        syncGmpExports.add(prototype);
+        syncGmpProtos.add(exp.prototype);
         break;
+      case 'asyncgmp': 
+       asyncGmpProtos.add(exp.prototype); 
+       break;
       default:
-        throw new UnsupportedError('unrecognized annotation "$annotation"');
-     }
+        throw new UnsupportedError('Invalid annotation "$exp.annotation"');
+    }
   });
 
-  var wrappers = "",
-      wrapper,
-      wrapperSource;
-
-  syncExports.forEach((exp) {
-    wrapper = gen.synchronousFunctionWrapper(exp);
-    wrappers = "$wrappers\n$wrapper";
-  });
-
-  syncGmpExports.forEach((exp) {
-    wrapper = gen.synchronousGmpFunctionWrapper(exp);
-    wrappers = "$wrappers\n$wrapper";
-  });
-
-  var allExports = exports.map((exp) => exp.prototype).toList();
-
-  wrapperSource =
-    '#include <string.h>\n'
-    '#include "include/dart_api.h"\n'
-    '#include "include/dart_native_api.h"\n'
-    '#include "dartify.h"\n'
-    '#include "${infile.path}"\n'
-    '$wrappers\n'
-    '${gen.nativeResolver(allExports)}\n'
-    '${gen.initializer()}\n';
-
-  stdout.write(wrapperSource);
+  gen.extensionHeader(infile.path);
+  gen.writeln();
+  syncProtos.forEach((exp) => gen.syncWrapper(exp));
+  // asyncProtos.forEach((exp) => gen.asyncWrapper(exp));
+  syncGmpProtos.forEach((exp) => gen.syncGmpWrapper(exp));
+  // asyncGmpProtos.forEach((exp) => gen.asyncGmpWrapper(exp));
+  gen.nativeResolver(prototypes);
+  gen.initializer(extname);
 }

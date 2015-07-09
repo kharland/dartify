@@ -2,10 +2,9 @@ part of dartify.parser;
 
 class Parameter {
   final String type;
-  final String pointer;
   final String id;
   
-  const Parameter(this.type, this.pointer, this.id);
+  const Parameter(this.type, this.id);
 }
 
 class DeclarationSpecifiers {
@@ -16,11 +15,10 @@ class DeclarationSpecifiers {
 
 class FunctionPrototype {
   final String type;
-  final String pointer;
   final String id;
   final List<Parameter> parameters;
   
-  const FunctionPrototype(this.type, this.pointer, this.id, this.parameters);
+  const FunctionPrototype(this.type, this.id, this.parameters);
 }
 
 class DartifyExport {

@@ -49,6 +49,9 @@ void Dartify_SetIntegerReturnValueFromMpz(Dart_NativeArguments args, mpz_t retva
   Dart_SetReturnValue(args, Dartify_HandleError(Dartify_NewIntegerFromMpz(retval)));
 }
 
+void Dartify_SetStringReturnValue(Dart_NativeArguments args, const char * rettval) {
+  Dart_SetReturnValue(args, Dartify_HandleError(Dart_NewStringFromCString(rettval)));
+}
 /*
  * ==========================
  * Native ext function macros
@@ -58,8 +61,8 @@ void Dartify_SetIntegerReturnValueFromMpz(Dart_NativeArguments args, mpz_t retva
 /** 
  * Evaluates to the generated extension's initialization function
  */
-#define Dartify_InitializeExtension()\
-  DART_EXPORT Dart_Handle dartified_extension_Init(Dart_Handle parent_library) {\
+#define Dartify_InitializeExtension(initializerId)\
+  DART_EXPORT Dart_Handle initializerId(Dart_Handle parent_library) {\
     if (Dart_IsError(parent_library)) return parent_library;\
     Dart_Handle result_code =\
       Dart_SetNativeResolver(parent_library, _Dartify_ResolveName, NULL);\
@@ -93,17 +96,19 @@ union DartifyResult {
   mpz_t mpz;
   double d;
   bool b;
+  const char * str;
 } dartifyResult;
 
 /* 
  * ======================
  * NativeArgument getters
  * ======================
- * All getters compute the C value of the Dart parameter passed to the extension.  
- * This value is stored in the corresponding field of the union dartifyResult.
- * If no errors occur then every getter should return Dart_Null.  If any errors
- * occur they should be returned so that the caller can free any allocated 
- * resources before terminating.
+ * 
+ * Getters compute the C value of the Dart parameter passed to the extension.
+ * If no errors occur then the getter returns Dart_Null and the computed value
+ * is stored in the corresponding field of the union dartifyResult.  If any 
+ * errors occur they should be returned so that the caller can free any 
+ * allocated resources before terminating.
  */
 
 Dart_Handle Dartify_GetBooleanNativeArgument(Dart_NativeArguments arguments, int pos) {
@@ -180,13 +185,25 @@ Dart_Handle Dartify_GetMpzNativeArgument(Dart_NativeArguments arguments, int pos
   result = Dart_IntegerToHexCString(result, &hex);
   if (Dart_IsError(result)) return result;
 
-  // Assumes dartifyResult.mpz is initialized
+  // Assumes dartifyResult.mpz is initialized by the caller
   if (mpz_set_str(dartifyResult.mpz, hex, 0) != 0) {
     char msg[256];
     sprintf(msg, "could not convert value %s to mpz_t\n", hex);
     return Dart_NewApiError(msg);
   }
 
+  return Dart_Null();
+}
+
+Dart_Handle Dartify_GetNativeStringArgument(Dart_NativeArguments arguments, int pos) {
+  Dart_Handle result;
+  void *peer;
+
+  result = Dart_GetNativeStringArgument(arguments, pos, &peer);
+  if (Dart_IsError(result)) return result;
+  // what to do with peer?
+  result = Dart_StringToCString(result, &dartifyResult.str);
+  if (Dart_IsError(result)) return result;
   return Dart_Null();
 }
 
