@@ -10,7 +10,7 @@ Dartify lets you write C code and wrap it as a dart native extension without wri
 Activate the package globally for simple use:
 
 ```dart
-pub global active dartify
+pub global activate dartify
 ```
 
 For now, you also need to create a symbolic link to `dartify.h` in the directory that your extension will be compiled in because the generated extension will contain this line: `#include 'dartify.h'`.  `dartify.h` is in `(DARTIFY_HOME)/packages/dartify/`.  This is only temporary and will be handled automatically in future releases.
