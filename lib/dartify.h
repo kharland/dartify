@@ -111,7 +111,7 @@ union DartifyResult {
  * allocated resources before terminating.
  */
 
-Dart_Handle Dartify_GetBooleanNativeArgument(Dart_NativeArguments arguments, int pos) {
+Dart_Handle Dartify_GetNativeBooleanArgument(Dart_NativeArguments arguments, int pos) {
   Dart_Handle result;
 
   bool value;
@@ -121,7 +121,7 @@ Dart_Handle Dartify_GetBooleanNativeArgument(Dart_NativeArguments arguments, int
   return Dart_Null();
 }
 
-Dart_Handle Dartify_GetIntNativeArgument(Dart_NativeArguments arguments, int pos) {
+Dart_Handle Dartify_GetNativeIntArgument(Dart_NativeArguments arguments, int pos) {
   Dart_Handle result;
 
   int64_t value;
@@ -131,7 +131,7 @@ Dart_Handle Dartify_GetIntNativeArgument(Dart_NativeArguments arguments, int pos
   return Dart_Null();
 }
 
-Dart_Handle Dartify_GetInt64NativeArgument(Dart_NativeArguments arguments, int pos) {
+Dart_Handle Dartify_GetNativeInt64Argument(Dart_NativeArguments arguments, int pos) {
   Dart_Handle result;
 
   int64_t value;
@@ -141,7 +141,7 @@ Dart_Handle Dartify_GetInt64NativeArgument(Dart_NativeArguments arguments, int p
   return Dart_Null();
 }
 
-Dart_Handle Dartify_GetUintNativeArgument(Dart_NativeArguments arguments, int pos) {
+Dart_Handle Dartify_GetNativeUintArgument(Dart_NativeArguments arguments, int pos) {
   Dart_Handle result;
 
   uint64_t value;
@@ -153,7 +153,7 @@ Dart_Handle Dartify_GetUintNativeArgument(Dart_NativeArguments arguments, int po
   return Dart_Null();
 }
 
-Dart_Handle Dartify_GetUint64NativeArgument(Dart_NativeArguments arguments, int pos) {
+Dart_Handle Dartify_GetNativeUint64Argument(Dart_NativeArguments arguments, int pos) {
   Dart_Handle result;
 
   uint64_t value;
@@ -165,7 +165,7 @@ Dart_Handle Dartify_GetUint64NativeArgument(Dart_NativeArguments arguments, int 
   return Dart_Null();
 }
 
-Dart_Handle Dartify_GetDoubleNativeArgument(Dart_NativeArguments arguments, int pos) {
+Dart_Handle Dartify_GetNativeDoubleArgument(Dart_NativeArguments arguments, int pos) {
   Dart_Handle result;
 
   double value;
@@ -175,7 +175,7 @@ Dart_Handle Dartify_GetDoubleNativeArgument(Dart_NativeArguments arguments, int 
   return Dart_Null();
 }
 
-Dart_Handle Dartify_GetMpzNativeArgument(Dart_NativeArguments arguments, int pos) {
+Dart_Handle Dartify_GetNativeMpzArgument(Dart_NativeArguments arguments, int pos) {
   Dart_Handle result;
   const char *hex;
 
