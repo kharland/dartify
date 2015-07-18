@@ -8,6 +8,18 @@
  * example.
  */
 
+
+//@dartify:sync
+int _intp(int* list, size_t size) {
+  int i;
+  for (i = 0; i < size; i++) {
+    printf("%d ", list[i]);
+    list[i] = 1;
+  }
+  printf("\n");
+  return list;
+}
+
 //@dartify:sync
 void _void();
 

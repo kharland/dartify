@@ -1,12 +1,5 @@
 part of dartify.generator;
 
-void write([content='']) => stdout.write(_indent(content));
-
-void writeln([content='']) {
-  write(content);
-  stdout.writeln();
-}
-
 void extensionHeader(infilePath) {
   writeln(
     '#include <string.h>\n'

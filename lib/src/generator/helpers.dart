@@ -29,29 +29,29 @@ String _paramAlloc(param, int pos) {
       alloc = '';
       break;
     case 'int':
-      alloc = 'error = Dartify_GetIntNativeArgument(arguments, $pos);\n'
+      alloc = 'error = Dartify_GetNativeIntArgument(arguments, $pos);\n'
             + 'Dartify_HandleError(error);\n'
             + '$type $id = ${_dartifyResultField(type)};';
       break;
     case 'uint':
-      alloc = 'error = Dartify_GetUintNativeArgument(arguments, $pos);\n'
+      alloc = 'error = Dartify_GetNativeUintArgument(arguments, $pos);\n'
             + 'Dartify_HandleError(error);\n'
             + '$type $id = ${_dartifyResultField(type)};';
       break;
     case 'mpz_t':
-      alloc = 'error = Dartify_GetMpzNativeArgument(arguments, $pos);\n'
+      alloc = 'error = Dartify_GetNativeMpzArgument(arguments, $pos);\n'
             + 'Dartify_HandleError(error);\n'
             + '$type $id;\n'
             + '${_gmpSimInitializer(type)}($id,${_dartifyResultField(type)});';
       break;
     case 'float':
     case 'double':
-      alloc = 'error = Dartify_GetDoubleNativeArgument(arguments, $pos);\n'
+      alloc = 'error = Dartify_GetNativeDoubleArgument(arguments, $pos);\n'
             + 'Dartify_HandleError(error);\n'
             + '$type $id = ${_dartifyResultField(type)};';
       break;
     case 'bool':
-      alloc = 'error = Dartify_GetBooleanNativeArgument(arguments, $pos);\n'
+      alloc = 'error = Dartify_GetNativeBooleanArgument(arguments, $pos);\n'
             + 'Dartify_HandleError(error);\n'
             + '$type $id = ${_dartifyResultField(type)};';
       break;
