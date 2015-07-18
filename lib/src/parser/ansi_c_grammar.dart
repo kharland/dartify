@@ -1,5 +1,13 @@
 part of dartify.parser;
 
+// Any grammar construct labeled "IMAG" is a made up recursion.
+//
+// Any grammar construct labeled "IMAG : PRODUCTION" was crearted to 
+// eliminate recursion from PRODUCTION.
+// 
+// Any grammar construct labled "MP" is not fully implemented and is missing
+// at least one of its productions according to the ANSI C grammar spec.
+
 /// A class for parsing ANSI C grammar. This class has a few made-up 
 /// productions to remove recursion and speed up prototyping. 
 @TODO("re-implement as a proper subclass of GrammarParser")
@@ -34,6 +42,7 @@ class _AnsiCGrammar {
   get INT64_T => token("int64_t");
   get UINT64_T => token("uint64_t");
   get MPZ_T => token("mpz_t");
+  get SIZE_T => token("size_t");
   get LONG => token("long");
   get FLOAT => token("float");
   get DOUBLE => token("double");
@@ -51,7 +60,7 @@ class _AnsiCGrammar {
   get IDENTIFIER_PART => WORD | UNDERSCORE;
   get IDENTIFIER => token(IDENTIFIER_START & IDENTIFIER_PART.star());
 
-  // helpful tokens
+  // IMAG
   get ANNOTATION => token(string("//@") & LETTER.plus() & COLON & LETTER.plus());
 
   // MP
@@ -65,6 +74,7 @@ class _AnsiCGrammar {
     | INT64_T
     | UINT64_T
     | MPZ_T
+    | SIZE_T
     | LONG
     | FLOAT
     | DOUBLE
@@ -86,9 +96,8 @@ class _AnsiCGrammar {
     | AUTO
     | REGISTER;
 
-  /// This is an imaginary grammar production to remove the indirect recursion
-  /// from the parameter -> declarator production
   /// MP
+  /// IMAG : declarator
   get parameterDeclarator => pointer.optional() & IDENTIFIER;
 
   // MP
@@ -102,16 +111,14 @@ class _AnsiCGrammar {
   get directDeclarator =>
       IDENTIFIER & char('(') & parameterTypeList.optional() & char(')');
 
-  /// This is an imaginary grammar production to remove recursion from the
-  /// pointer production.
+  /// IMAG : pointer
   get pointerStart => char('*') & typeQualifierList.optional();
   
   get pointer => pointerStart.plus();
 
   get declarator => pointer.optional() & directDeclarator;
 
-  /// This is an imaginary grammar production to remove recursion from the
-  /// declarationSpecifiers production.
+  /// IMAG : declarationSpecifiers production.
   get declarationSpecifier =>
       typeSpecifier
     | typeQualifier
@@ -119,15 +126,11 @@ class _AnsiCGrammar {
 
   get declarationSpecifiers => declarationSpecifier.plus();
 
-  /// This is an imaginary grammar production.
-  /// This is the production we use to match against and extract all 
-  /// function declarations from a C source file. It is a function definition
-  /// without the trailing compound statement;
   /// MP
+  /// IMAG
   get functionPrototype => declarationSpecifiers.optional() & declarator;
 
-  /// This is an imaginary grammar production. It is also the start production 
-  /// for matching all function prototypes that are marked with an annotation.
+  /// IMAG
   get dartifyExport => ANNOTATION & functionPrototype;
 }
 
