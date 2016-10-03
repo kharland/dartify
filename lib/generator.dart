@@ -1,5 +1,3 @@
-library dartify.generator;
-
 import 'dart:io';
 
 import 'package:dartify/parser.dart';

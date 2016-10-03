@@ -1,11 +1,7 @@
-part of dartify.parser;
+import 'package:nerf_dart/parsers/ansi_c.dart';
 
-/// These tests are shit and need to be re-written.  This is mainly just 
-/// quick-prototyping junk to make sure the most absolute obvious breaks
-/// don't occur.
-
-main() {
-  var parser = new AnsiCParser();
+void main() {
+  var parser = new AnsiCGrammar();
 
   group("Terminals:", () {
     test("IDENTIFIER", () {
